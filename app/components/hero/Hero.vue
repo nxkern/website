@@ -7,7 +7,7 @@ const dataGh = defineProps<{
 <template>
     <section>
         <h1>Dylan Marcano</h1>
-        <p id="job-title">SOFTWARE DEVELOPER</p>
+        <p id="job-title">SOFTWARE & DEVOPS ENGINEER</p>
         <div class="container">
             <p v-if="!dataGh.data" class="skeleton-bio"></p>
             <p v-else>{{ dataGh.data.bio }}</p>
