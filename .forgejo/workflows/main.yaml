@@ -26,6 +26,6 @@ jobs:
         run: |
           buildah push \
           --storage-driver=vfs \
-         docker.io/nxusdev21/website-nxus:latest
+          docker.io/nxusdev21/website-nxus:latest
 
             
