@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { DataExpertise } from "@/models/dataExpertise";
 import dataJson from "@/utils/data/expertise.json";
 const Data: DataExpertise = dataJson as DataExpertise;
 </script>

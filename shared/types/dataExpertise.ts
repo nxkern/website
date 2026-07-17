@@ -1,45 +1,16 @@
 
 export interface DataExpertise {
-    fnt: Fnt[]
-    bck: Bck[]
-    mob: Mob[]
-    sys: Sy[]
-    dsg: Dsg[]
-    foc: Foc[]
+    fnt: SkillType[]
+    bck: SkillType[]
+    mob: SkillType[]
+    sys: SkillType[]
+    dsg: SkillType[]
+    foc: SkillType[]
 }
 
-export interface Fnt {
+export interface SkillType {
     type: string
     Name: string
     status: string
 }
 
-export interface Bck {
-    type: string
-    Name: string
-    status: string
-}
-
-export interface Mob {
-    type: string
-    Name: string
-    status: string
-}
-
-export interface Sy {
-    type: string
-    Name: string
-    status: string
-}
-
-export interface Dsg {
-    type: string
-    Name: string
-    status: string
-}
-
-export interface Foc {
-    type: string
-    Name: string
-    status: string
-}

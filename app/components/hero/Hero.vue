@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { UserApiGithub } from '@/models/userApiGithub';
-
 const dataGh = defineProps<{
     data: UserApiGithub | null
 }>();
