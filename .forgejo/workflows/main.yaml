@@ -23,7 +23,9 @@ jobs:
           -t docker.io/nxusdev21/website-nxus:latest \
           -f ./Dockerfile .
       - name: Push to Docker.io
+        run: |
           buildah push \
-            --storage-driver=vfs \
-            docker.io/nxusdev21/website-nxus:latest
+          --storage-driver=vfs \
+         docker.io/nxusdev21/website-nxus:latest
+
             
