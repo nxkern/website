@@ -7,24 +7,22 @@ jobs:
     runs-on: codeberg-small
     steps:
       - uses: actions/checkout@v6
+      - name: Install Buildah
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y buildah
       - name: Log in to Docker
-        uses: redhat-actions/podman-login@v1
-        with:
-          registry: docker.io
-          username: ${{ secrets.REGISTRY_USER }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
+        run: |
+          echo "${{ secrets.REGISTRY_TOKEN }}" | buildah login docker.io -u "${{ secrets.REGISTRY_USER }}" --password-stdin
       - name: Build Image
         id: build-image
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: website-nxus
-          tags: latest
-          containerfiles: |
-            ./Dockerfile
+            buildah build \
+            --storage-driver=vfs \
+            --isolation=chroot \
+            -t docker.io/nxusdev21/website-nxus:latest \
+            -f ./Dockerfile .
       - name: Push to Docker.io
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tag }}
-          registry: docker.io/nxusdev21/website-nxus
+          buildah push \
+            --storage-driver=vfs \
+            docker.io/nxusdev21/website-nxus:latest
             
