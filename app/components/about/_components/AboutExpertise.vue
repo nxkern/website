@@ -58,6 +58,7 @@ const Data: DataExpertise = dataJson as DataExpertise;
             gap: 0;
             transition: color .3s ease;
             font-weight: 500;
+            margin-right: 1em;
 
             &:hover {
                 color: white;
