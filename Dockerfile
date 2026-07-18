@@ -11,7 +11,7 @@ COPY . .
 RUN pnpm build
 
 
-FROM node:20-alpine AS runnner
+FROM node:26-alpine AS runnner
 WORKDIR /app
 ENV NODE_ENV=production
 
