@@ -1,17 +1,31 @@
 <script setup lang="ts">
 import DescriptionCard from './_components/DescriptionCard.vue';
-const data = defineProps<{
-    goxe: RepoApiGithub | null,
-    pulse: RepoApiGithub | null,
-}>();
+type RepoWithLangs = RepoApiCodeberg & { languagesData: LanguageCount | null };
+const currentIndex = ref<number>(0);
+let timer: ReturnType<typeof setInterval> | null = null;
+const { data: repos } = await useFetch<RepoWithLangs[]>("/api/repos");
+const nextRepo = () => {
+    if(!repos.value || repos.value.length === 0) return;
+    currentIndex.value = (currentIndex.value + 1) % repos.value.length;
+}
 
+onMounted(async () => {
+    timer = setInterval(nextRepo, 6000);
+})
+onUnmounted(() => {
+    if(timer) clearInterval(timer);
+})
 </script>
 <template>
     <section>
         <h2>MY REPOS</h2>
         <div class="repos">
-            <DescriptionCard :data="goxe" />
-            <DescriptionCard :data="pulse" />
+            <Transition name="fade" mode="out-in">
+            <DescriptionCard
+                v-if="repos && repos.length > 0"
+                :key="repos[currentIndex]?.id"
+                :dat="repos[currentIndex] ?? null"/>
+            </Transition>
         </div>
     </section>
 </template>
@@ -32,6 +46,21 @@ section {
         display: flex;
         flex-direction: column;
         gap: 1em;
+        min-height: 10em;
     }
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-enter-from {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-6px);
 }
 </style>

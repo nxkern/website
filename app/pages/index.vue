@@ -1,27 +1,22 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-const userData = ref<UserApiGithub | null>(null);
-const goxeData = ref<RepoApiGithub | null>(null);
-const pulseData = ref<RepoApiGithub | null>(null);
+const goxeData = ref<RepoApiCodeberg | null>(null);
+const pulseData = ref<RepoApiCodeberg | null>(null);
 async function fetchGithubData() {
     try {
-        const userPromise = fetch('https://api.github.com/users/dumbnoxx');
-        const goxePromise = fetch('https://api.github.com/repos/DumbNoxx/goxe');
-        const pulsePromise = fetch('https://api.github.com/repos/DumbNoxx/pulse.nvim');
+        const goxePromise = fetch('https://codeberg.org/api/v1/repos/Nxus/goxe');
+        const pulsePromise = fetch('https://codeberg.org/api/v1/repos/Nxus/pulse.nvim');
 
-        const [userRes, goxeRes, pulseRes] = await Promise.all([
-            userPromise,
+        const [goxeRes, pulseRes] = await Promise.all([
             goxePromise,
             pulsePromise,
         ]);
 
-        const [user, goxe, pulse] = await Promise.all([
-            userRes.json() as Promise<UserApiGithub>,
-            goxeRes.json() as Promise<RepoApiGithub>,
-            pulseRes.json() as Promise<RepoApiGithub>
+        const [goxe, pulse] = await Promise.all([
+            goxeRes.json() as Promise<RepoApiCodeberg>,
+            pulseRes.json() as Promise<RepoApiCodeberg>
         ]);
 
-        userData.value = user;
         goxeData.value = goxe;
         pulseData.value = pulse;
 
@@ -48,7 +43,7 @@ definePageMeta({
 
 <template>
     <div>
-        <Hero :data="userData" />
+        <Hero />
         <Divider />
         <Projects :goxe="goxeData" :pulse="pulseData" />
         <Divider />

@@ -1,16 +1,9 @@
-<script setup lang="ts">
-const dataGh = defineProps<{
-    data: UserApiGithub | null
-}>();
-
-</script>
 <template>
     <section>
         <h1>Dylan Marcano</h1>
         <p id="job-title">SOFTWARE & DEVOPS ENGINEER</p>
         <div class="container">
-            <p v-if="!dataGh.data" class="skeleton-bio"></p>
-            <p v-else>{{ dataGh.data.bio }}</p>
+            <p>No bloat, just clean proofs.</p>
             <div class="button-navs">
                 <a href="mailto:nxusdev@protonmail.com" aria-label="Sent me email">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

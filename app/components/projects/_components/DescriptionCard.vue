@@ -1,79 +1,58 @@
 <script setup lang="ts">
+import Langs from "./languages.vue";
 const props = withDefaults(defineProps<{
     isWeb?: boolean,
-    data: RepoApiGithub | null
-
+    dat: RepoApiCodeberg | null
 }>(), {
     isWeb: false
+});
+
+
+const apiRef = ref<{ dataApi: LanguageCount; } | undefined | null>(null);
+const url = props.dat?.languages_url ?? "";
+onMounted(async () => {
+if (!url) return;
+const dataApi  = await useFetchApi(url)
+apiRef.value = dataApi;
 })
-
-
 </script>
 <template>
     <div class="card-description">
-        <template v-if="!props.data">
+        <template v-if="!props.dat">
             <div class="skeleton-link"></div>
             <div class="container">
                 <div class="skeleton-text"></div>
-                <div class="details">
-                    <div v-for="i in 3" :key="i" class="skeleton-icon"></div>
-                </div>
             </div>
         </template>
 
         <template v-else>
-            <a :href="props.isWeb ? props.data.homepage : props.data.html_url" target="_blank">
-                {{ props.data.name }}
-            </a>
-            <div class="container">
-                <p class="description">{{ props.data.description }}</p>
-                <div class="details">
-                    <p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-star-icon lucide-star">
-                            <path
-                                d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
-                        </svg>
-                        <span>{{ props.data.stargazers_count }}</span>
-                    </p>
-                    <p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-git-fork-icon lucide-git-fork">
-                            <circle cx="12" cy="18" r="3" />
-                            <circle cx="6" cy="6" r="3" />
-                            <circle cx="18" cy="6" r="3" />
-                            <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" />
-                            <path d="M12 12v3" />
-
-                        </svg>
-                        <span>{{ props.data.forks_count }}</span>
-                    </p>
-                    <p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-scale-icon lucide-scale license">
-                            <path d="M12 3v18" />
-                            <path d="m19 8 3 8a5 5 0 0 1-6 0zV7" />
-                            <path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" />
-                            <path d="m5 8 3 8a5 5 0 0 1-6 0zV7" />
-                            <path d="M7 21h10" />
-
-                        </svg>
-                        <span class="license">{{ props.data.license?.name || 'No License' }}</span>
-                    </p>
+              <a :href="props.dat.html_url" target="_blank" class="linke">
+                {{ props.dat.name }}
+              </a>
+              <div class="container">
+                <p class="description">{{ props.dat.description }}</p>
+                <div class="topics">             
+                    <Langs :datas="apiRef?.dataApi"/>
                 </div>
-            </div>
+              </div>
         </template>
     </div>
 </template>
 <style lang="css" scoped>
 .card-description {
 
+    .linke {
+        display: inline-flex;
+        gap: .4em;
+        align-items: center;
+
+        width: fit-content;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .skeleton-link,
-    .skeleton-text,
-    .skeleton-icon {
+    .skeleton-text{
         background-color: var(--text-color-neutral);
         opacity: 0.1;
         border-radius: 4px;
@@ -92,59 +71,19 @@ const props = withDefaults(defineProps<{
         margin-top: 0.8em;
     }
 
-    .skeleton-icon {
-        width: 24px;
-        height: 40px;
-    }
-
     .container {
-        min-height: 152px;
+        min-height: auto;
+
+        .topics {
+            display: flex;
+            gap: .5em;
+            flex-wrap: wrap;
+        }
 
         .description {
             margin-top: .8em;
             margin-bottom: 0;
             color: var(--text-color-neutral)
-        }
-
-        .details {
-            display: flex;
-            margin-top: 0;
-            align-items: center;
-            gap: 1em;
-
-            p {
-                display: flex;
-                flex-direction: row;
-                gap: .2em;
-                align-items: center;
-                min-height: 25px;
-
-
-                svg {
-                    color: var(--text-color-neutral);
-                    transition: .3s ease;
-                    width: .95em;
-                    height: .95em;
-
-                    &:hover {
-                        color: var(--text-color);
-                        cursor: pointer;
-                    }
-                }
-
-                span {
-                    color: var(--text-color);
-                    font-size: .75em;
-
-                    &.license {
-                        color: var(--text-color-neutral)
-                    }
-
-                    &:hover {
-                        cursor: default;
-                    }
-                }
-            }
         }
     }
 }
