@@ -48,6 +48,12 @@ section {
         gap: 1em;
         min-height: 10em;
     }
+    @media(width <= 40em) {
+  .repos {
+      min-height: 15em;
+  }
+}
+
 }
 .fade-enter-active,
 .fade-leave-active {

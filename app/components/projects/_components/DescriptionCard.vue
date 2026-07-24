@@ -2,19 +2,11 @@
 import Langs from "./languages.vue";
 const props = withDefaults(defineProps<{
     isWeb?: boolean,
-    dat: RepoApiCodeberg | null
+    dat: RepoWithLangs | null
 }>(), {
     isWeb: false
 });
 
-
-const apiRef = ref<{ dataApi: LanguageCount; } | undefined | null>(null);
-const url = props.dat?.languages_url ?? "";
-onMounted(async () => {
-if (!url) return;
-const dataApi  = await useFetchApi(url)
-apiRef.value = dataApi;
-})
 </script>
 <template>
     <div class="card-description">
@@ -32,7 +24,7 @@ apiRef.value = dataApi;
               <div class="container">
                 <p class="description">{{ props.dat.description }}</p>
                 <div class="topics">             
-                    <Langs :datas="apiRef?.dataApi"/>
+                    <Langs :datas="props.dat.languagesData"/>
                 </div>
               </div>
         </template>
@@ -97,4 +89,5 @@ a {
         color: var(--text-color-neutral)
     }
 }
+
 </style>

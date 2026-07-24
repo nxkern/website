@@ -105,4 +105,4 @@ export interface InternalTracker {
 }
 
 export type LanguageCount = Record<string, number>;
-
+export type RepoWithLangs = RepoApiCodeberg & { languagesData: LanguageCount | null };

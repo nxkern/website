@@ -6,13 +6,6 @@ export default defineNuxtConfig({
     app: {
         viewTransition: true,
         head: {
-            script: [
-                {
-                    src: 'https://static.cloudflareinsights.com/beacon.min.js',
-                    defer: true,
-                    'data-cf-beacon': JSON.stringify({ token: '9851a764004d4b6cb5c39bdbe5dac3fa' })
-                }
-            ],
             titleTemplate: "%s",
             htmlAttrs: {
                 lang: "en"

@@ -1,4 +1,3 @@
-export type LanguageCount = Record<string, number>;
 export const useFetchApi = async (url: string) => {
     try {
         const promise = fetch(url);
