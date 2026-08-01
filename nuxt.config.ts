@@ -3,6 +3,12 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
     modules: ["@nuxt/ui", "@nuxtjs/sitemap"],
+    ui: {
+        fonts: false,
+    },
+    experimental: {
+        clientNodeCompat: true,
+    },
     app: {
         viewTransition: true,
         head: {
@@ -11,6 +17,7 @@ export default defineNuxtConfig({
                 lang: "en"
             }
         },
+        cdnURL: "",
     },
     nitro: {
         prerender: {
