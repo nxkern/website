@@ -27,14 +27,14 @@ async function fetchGithubData() {
 }
 onMounted(fetchGithubData)
 useSeoMeta({
-  title: "Dylan Marcano | Software & DevOps Engineer",
+  title: "Dylan Marcano | Full Stack Software Developer",
   ogUrl: "https://nxbin.xyz",
-  ogTitle:"Dylan Marcano | Software & DevOps Engineer",  
-  description: "Explore my work: a Software & DevOps Engineer merging cutting-edge technologies with bussiness-driven results.",
-  ogDescription:"Explore my work: a Software & DevOps Engineer merging cutting-edge technologies with bussiness-driven results.",
+  ogTitle:"Dylan Marcano | Full Stack Software Developer",  
+  description: "Explore my work: a Full Stack Software Developer merging cutting-edge technologies with bussiness-driven results.",
+  ogDescription:"Explore my work: a Full Stack Software Developer merging cutting-edge technologies with bussiness-driven results.",
   twitterCard: "summary",
-  twitterTitle: "Dylan Marcano | Software & DevOps Engineer",
-  twitterDescription: "Explore my work: a Software & DevOps Engineer merging cutting-edge technologies with bussiness-driven results."
+  twitterTitle: "Dylan Marcano | Full Stack Software Developer",
+  twitterDescription: "Explore my work: a Full Stack Software Developer merging cutting-edge technologies with bussiness-driven results."
 })
 definePageMeta({
     middleware: ["auth"]

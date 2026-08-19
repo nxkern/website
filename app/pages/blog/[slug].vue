@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
+import type {Post} from "~~/shared/types/postsData";
 import { useRoute } from 'vue-router';
+
+type typeRaw =  string | string[] | undefined; 
 
 const route = useRoute();
 
-const { data: posts } = await useFetch<any[]>("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/all");
+const { data: posts } = await useFetch<Post[]>("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/all");
+const loading = ref(false);
 
-const cachePosts = ref<unknown[]>([]);
+const cachePosts = ref<Post[]>([]);
 
 const datas = computed(() => {
     const id = normalizeId(route.params.slug);
@@ -14,10 +18,10 @@ const datas = computed(() => {
         return null;
     }
     
-    let post = posts.value?.find(p => String(p.PostId) === id);
+    let post = posts.value?.find(p => p.PostId === id);
     
     if (!post) {
-        post = cachePosts.value.find(p => String(p.PostId) === id);
+        post = cachePosts.value.find(p => p.PostId === id);
     }
 
     return post;
@@ -26,7 +30,7 @@ const datas = computed(() => {
 const fetchData = async (id: string) => {
     loading.value = true;
     try {
-        const { data } = await useFetch("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/one", {
+        const { data } = await useFetch<Post>("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/one", {
             method: 'POST',
             body: { PostId: id }
         });
@@ -38,18 +42,20 @@ const fetchData = async (id: string) => {
         loading.value = false;
     }
 };
-const normalizeId = (raw: unknown): string | null => {
+const normalizeId = (raw: typeRaw): string | null => {
     if (!raw) return null;
     if (Array.isArray(raw)) return String(raw[0]);
-    return String(raw);
+    return raw;
 };
 
 watch(
-    () => route.params.id,
+    () => route.params.slug,
     (raw) => {
         const id = normalizeId(raw);
         if (!id) return;
-        if (!PostsData.value?.some(p => p.PostId === id) && !loading.value) {
+        if (
+        !posts.value?.some(p => p.PostId === id) && !loading.value
+        ) {
             fetchData(id);
         }
     },
@@ -60,13 +66,13 @@ const formatData = computed(() => {
     return datas.value ? formatDate(datas.value.PublishData) : '';
 });
 useSeoMeta({
-    title: () => datas?.value.TitleData,
-    description: () => datas?.value.ShorMessage,
-    ogTitle: () => datas?.value.TitleData,
-    ogDescription: () => datas?.value.ShorMessage,
-    twitterCard: "sumary",
-    twitterTitle: () => datas?.value.TitleData,
-    twitterDescription: () => datas?.value.ShorMessage 
+    title: () => datas?.value?.TitleData,
+    description: () => datas?.value?.ShorMessage,
+    ogTitle: () => datas?.value?.TitleData,
+    ogDescription: () => datas?.value?.ShorMessage,
+    twitterCard: "summary",
+    twitterTitle: () => datas?.value?.TitleData,
+    twitterDescription: () => datas?.value?.ShorMessage 
 })
 
 

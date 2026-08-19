@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { Posts } from "#shared/types/postData";
-const { data: posts, status } = await useLazyFetch("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/all", {
+import type { Post } from '#imports';
+const { data: posts, status } = await useLazyFetch<Post[]>("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/all", {
 server: true
 });
-const {data} = getPosts();
 import { computed } from 'vue';
 const Data = posts;
 
@@ -18,8 +17,8 @@ useSeoMeta({
     title: "Blog | Insights on Design & Architecture",
     description: "Essays on software architecture, minimalist design, and the practical challenges of modern web development.",
     ogTitle: "Blog | Essays & Notes",
+    twitterCard: "summary",
     ogDescription: "Thoughts on design, architecture, and the real cost of observability.",
-    twitterCard: "sumary",
     twitterTitle: "Blog | Essays & Notes",
     twitterDescription: "Thoughts on design, architecture, and the real cost of observability."
 })
