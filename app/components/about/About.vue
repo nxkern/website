@@ -9,12 +9,14 @@ import AboutExpertise from './_components/AboutExpertise.vue';
         <article>
             <AboutCard title="INTENT" description=" Performance is found in what is removed. I focus on technical rigor, low-level precision, and logic
             that stays out of its own way." />
-            <AboutCard title="BACKGROUND" description="Over three years of experience in software development, I specialize in creating clean, efficient,
+            <AboutCard title="BACKGROUND" description="Over four years of experience in software development, I specialize in creating clean, efficient,
                     and user-centered digital experiences." />
             <AboutExpertise />
 
             <AboutCard title="APPROACH"
                 description="I believe in minimalism not just as an aesthetic choice, but as a development philosophy. By focusing on what truly matters and eliminating unnecessary complexity, I create digital products that are intuitive, maintainable, and built to last." />
+            <AboutCard title="IMPACT"
+                description="35% faster loads. Full-cycle delivery, API to deploy. No fluff, just results." />
         </article>
     </section>
 </template>

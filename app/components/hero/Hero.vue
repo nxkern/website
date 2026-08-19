@@ -1,7 +1,7 @@
 <template>
     <section>
         <h1>Dylan Marcano</h1>
-        <p id="job-title">SOFTWARE & DEVOPS ENGINEER</p>
+        <p id="job-title">FULL STACK SOFTWARE DEVELOPER</p>
         <div class="container">
             <p>No bloat, just clean proofs.</p>
             <div class="button-navs">

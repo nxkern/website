@@ -1,12 +1,21 @@
+import { RepoApiCodeberg } from "~~/shared/types/repoApiCodeberg";
+
+const listFilter: string[] = [
+    "nixos-dotfiles",
+    "website",
+    "heartbeat",
+];
+
 export default defineCachedEventHandler(
     async () => {
         try {
             const repos = await $fetch<RepoApiCodeberg[]>(
                 "https://codeberg.org/api/v1/users/Nxus/repos"
             );
+            const reposFilter = repos.filter((repo: RepoApiCodeberg) => !listFilter.includes(repo.name));
 
             const reposWithLangs = await Promise.all(
-                repos.map(async (repo) => {
+                reposFilter.map(async (repo) => {
                     let languagesData: LanguageCount | null = null;
 
                     if (repo.languages_url) {
