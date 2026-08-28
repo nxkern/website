@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     ui: {
         fonts: false,
     },
+    runtimeConfig: {
+        apiKeyWorker: "",
+    },
     experimental: {
         clientNodeCompat: true,
     },

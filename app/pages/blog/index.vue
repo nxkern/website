@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { Post } from '#imports';
-const { data: posts, status } = await useLazyFetch<Post[]>("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/all", {
-server: true
-});
+const { data: posts, status } = await useFetch<Post[]>("/api/blogs");
+
 import { computed } from 'vue';
 const Data = posts;
 

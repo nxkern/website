@@ -1,70 +1,25 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 import type {Post} from "~~/shared/types/postsData";
 import { useRoute } from 'vue-router';
 
-type typeRaw =  string | string[] | undefined; 
 
 const route = useRoute();
 
-const { data: posts } = await useFetch<Post[]>("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/all");
-const loading = ref(false);
 
-const cachePosts = ref<Post[]>([]);
-
-const datas = computed(() => {
-    const id = normalizeId(route.params.slug);
-    if (!id) {
-        return null;
-    }
-    
-    let post = posts.value?.find(p => p.PostId === id);
-    
-    if (!post) {
-        post = cachePosts.value.find(p => p.PostId === id);
-    }
-
-    return post;
+const currentSlug = computed(() => {
+    const raw = route.params.slug;
+    if (!raw) return '';
+    return Array.isArray(raw) ? String(raw[0]) : String(raw);
 });
 
-const fetchData = async (id: string) => {
-    loading.value = true;
-    try {
-        const { data } = await useFetch<Post>("https://nxus-api-blog.nxus-dev.workers.dev/api/getPost/one", {
-            method: 'POST',
-            body: { PostId: id }
-        });
-
-        if (data.value) {
-            cachePosts.value.push(data.value);
-        }
-    } finally {
-        loading.value = false;
-    }
-};
-const normalizeId = (raw: typeRaw): string | null => {
-    if (!raw) return null;
-    if (Array.isArray(raw)) return String(raw[0]);
-    return raw;
-};
-
-watch(
-    () => route.params.slug,
-    (raw) => {
-        const id = normalizeId(raw);
-        if (!id) return;
-        if (
-        !posts.value?.some(p => p.PostId === id) && !loading.value
-        ) {
-            fetchData(id);
-        }
-    },
-    { immediate: true }
-);
-
+const { data: datas, status } = await useFetch<Post>(() => `/api/blogs/${currentSlug.value}`, {
+    getCachedData: (key) => useNuxtApp().payload.data[key] 
+});
 const formatData = computed(() => {
     return datas.value ? formatDate(datas.value.PublishData) : '';
 });
+
 useSeoMeta({
     title: () => datas?.value?.TitleData,
     description: () => datas?.value?.ShorMessage,
@@ -90,7 +45,7 @@ useHead({
                 <span>←</span><span id="text">Back to Blog</span>
             </NuxtLink>
         </nav>
-        <div v-if="loading">
+        <div v-if="status == 'pending'">
             <div class="skeleton-title"></div>
             <div class="skeleton-text"></div>
             <div class="skeleton-text"></div>
