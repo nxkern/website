@@ -43,6 +43,12 @@ export default defineNuxtConfig({
 
     },
     vite: {
+        css: {
+            transformer: 'postcss', 
+        },
+        build: {
+            cssMinify: "esbuild"
+        },
         optimizeDeps: {
             include: [
                 '@nuxt/ui > prosemirror-state',
