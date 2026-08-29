@@ -6,6 +6,19 @@ export default defineNuxtConfig({
     site: {
         url: "https://nxbin.xyz",
     },
+    sitemap: {
+        exclude: [
+            "/admin",
+            "/admin/**"
+
+        ],
+    },
+    robots: {
+        disallow: [
+            "/admin",
+            "admin/**"
+        ]
+    },
     ui: {
         fonts: false,
     },
@@ -44,7 +57,7 @@ export default defineNuxtConfig({
     },
     vite: {
         css: {
-            transformer: 'postcss', 
+            transformer: 'postcss',
         },
         build: {
             cssMinify: "esbuild"
