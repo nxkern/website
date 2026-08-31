@@ -60,6 +60,7 @@ export default defineNuxtConfig({
             transformer: 'postcss',
         },
         build: {
+            chunkSizeWarningLimit: 700,
             cssMinify: "esbuild"
         },
         optimizeDeps: {

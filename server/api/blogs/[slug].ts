@@ -14,6 +14,7 @@ export default defineCachedEventHandler(
                         "User-Agent": "Nuxt-Server-Fetch"
                     }
                 });
+            console.log("[post log api] change cache success");
             return data
         } catch (err) {
             console.error(err);

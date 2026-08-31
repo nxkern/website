@@ -32,7 +32,7 @@ export default defineCachedEventHandler(
                     };
                 })
             );
-            console.log("change cache success");
+            console.log("[Repo log api] change cache success");
             return reposWithLangs;
 
         } catch (err) {

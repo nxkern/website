@@ -3,3 +3,7 @@ allowBuilds:
   better-sqlite3: true
   esbuild: true
   vue-demi: true
+
+pnpm:
+  overrides:
+    h3: "1.15.11"
