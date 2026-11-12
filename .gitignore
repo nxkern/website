@@ -25,3 +25,14 @@ logs
 .envrc
 !.envrc.template
 .direnv
+
+
+# Terraform
+
+**/.terraform/*
+*.tfvars
+!*.tfvars.example
+plan.out
+*.tfplan
+*.tfstate
+*.tfstate.*
