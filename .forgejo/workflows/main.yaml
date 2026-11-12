@@ -1,6 +1,10 @@
 name: CI/CD
 
-on: [push]
+on:
+  push:
+    tags:
+      - "v*"
+
 
 jobs:
   build:
@@ -17,15 +21,21 @@ jobs:
       - name: Build Image
         id: build-image
         run: |
+          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
           buildah build \
           --storage-driver=vfs \
           --isolation=chroot \
+          -t docker.io/nxusdev21/website-nxus:$VERSION \
           -t docker.io/nxusdev21/website-nxus:latest \
           -f ./Dockerfile .
       - name: Push to Docker.io
         run: |
+          VERSION=$(echo "${{ github.ref_name }}" | sed 's/^v//')
+          buildah push \
+          --storage-driver=vfs \
+          docker.io/nxusdev21/website-nxus:$VERSION
+
           buildah push \
           --storage-driver=vfs \
           docker.io/nxusdev21/website-nxus:latest
-
             
