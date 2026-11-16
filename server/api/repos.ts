@@ -7,7 +7,8 @@ const listFilter: string[] = [
 ];
 
 export default defineCachedEventHandler(
-    async () => {
+    async (event) => {
+        setResponseHeader(event, 'Cache-Control', 'no-cache, no-store, must-revalidate');
         try {
             const repos = await $fetch<RepoApiCodeberg[]>(
                 "https://codeberg.org/api/v1/users/Nxus/repos"

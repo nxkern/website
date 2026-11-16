@@ -3,7 +3,7 @@ import DescriptionCard from './_components/DescriptionCard.vue';
 type RepoWithLangs = RepoApiCodeberg & { languagesData: LanguageCount | null };
 const currentIndex = ref<number>(0);
 let timer: ReturnType<typeof setInterval> | null = null;
-const { data: repos } = await useFetch<RepoWithLangs[]>("/api/repos");
+const { data: repos, refresh } = await useFetch<RepoWithLangs[]>("/api/repos");
 const nextRepo = () => {
     if(!repos.value || repos.value.length === 0) return;
     currentIndex.value = (currentIndex.value + 1) % repos.value.length;
@@ -11,6 +11,11 @@ const nextRepo = () => {
 
 onMounted(async () => {
     timer = setInterval(nextRepo, 6000);
+     await refresh();
+    
+    if (repos.value && currentIndex.value >= repos.value.length) {
+        currentIndex.value = 0;
+    }
 })
 onUnmounted(() => {
     if(timer) clearInterval(timer);
