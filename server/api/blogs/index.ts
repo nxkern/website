@@ -13,7 +13,7 @@ export default defineCachedEventHandler(
             return data
         } catch (err) {
             console.error(err);
-            throw err;
+            return err
         }
     },
     {

@@ -22,7 +22,6 @@ export default defineCachedEventHandler(
                     if (repo.html_url) {
                         try {
                             languagesData = await $fetch<LanguageCountGh>(repo.languages_url);
-                            console.log(`repo name: ${repo.full_name}: languageData ${languagesData}`)
                         } catch {
                             languagesData = null;
                         }
@@ -39,7 +38,7 @@ export default defineCachedEventHandler(
 
         } catch (err) {
             console.error(`error revalue cache codeberg: ${err}`);
-            throw err;
+            return err
         }
     },
     {
