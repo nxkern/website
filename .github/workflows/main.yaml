@@ -32,7 +32,7 @@ jobs:
       - name: Build Docker image
         run: |
           TAG="${{ steps.get_tag.outputs.tag }}"
-          docker build --platform linux/adm64 -t $IMAGE_BASE_NAME:latest .
+          docker build --platform linux/amd64 -t $IMAGE_BASE_NAME:latest .
 
           if [ -z "$TAG"  ]; then 
               echo "not tag"
