@@ -7,18 +7,13 @@
         },
         {
             "type": "fnt",
-            "Name": "Vue",
+            "Name": "Nuxt",
             "status": "active"
         },
         {
             "type": "fnt",
             "Name": "Angular",
             "status": "stable"
-        },
-        {
-            "type": "fnt",
-            "Name": "SaSS",
-            "status": "active"
         }
     ],
     "bck": [
@@ -30,11 +25,6 @@
         {
             "type": "bck",
             "Name": "Hono",
-            "status": "stable"
-        },
-        {
-            "type": "bck",
-            "Name": "Flask",
             "status": "stable"
         }
     ],
@@ -64,7 +54,7 @@
         {
             "type": "sys",
             "Name": "Zig",
-            "status": "alpha"
+            "status": "stable"
         }
     ],
     "ops": [
@@ -80,15 +70,8 @@
         },
         {
             "type": "ops",
-            "Name": "AWS",
-            "status": "alpha"
-        }
-    ],
-    "dsg": [
-        {
-            "type": "dsg",
-            "Name": "UI/UX Design",
-            "status": "active"
+            "Name": "Azure",
+            "status": "stable"
         }
     ],
     "foc": [
