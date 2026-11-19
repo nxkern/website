@@ -1,10 +1,11 @@
 <script setup lang="ts">
     const props = defineProps<{
-    datas?: LanguageCount | null;
+    datas?: LanguageCountGh | null;
     }>();
     const getPercentage = (bytes: number) => {
         if (!props.datas) return;
         const total = Object.values(props.datas).reduce((acc, bytes) => acc + bytes, 0)
+        console.log(total);
         return total ? ((bytes / total) * 100).toFixed(2) : 0
     }
 </script>
@@ -66,8 +67,9 @@
     .lang-swift { background-color: #f05138; }
     .lang-sql { background-color: #e38c00; }
     .lang-dockerfile { background-color: #384d54; }
+    .lang-hcl { background-color: #570763; }
   .lang:not([class*="lang-"]) {
-        background-color: #8b949e;
+        background-color: #FF0000;
     }
 }
 

@@ -2,7 +2,7 @@
 import Langs from "./languages.vue";
 const props = withDefaults(defineProps<{
     isWeb?: boolean,
-    dat: RepoWithLangs | null
+    dat: RepoWithLangsGh | null
 }>(), {
     isWeb: false
 });
@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<{
 
         <template v-else>
               <a :href="props.dat.html_url" target="_blank" class="linke">
-                {{ props.dat.name }}
+                {{ props.dat.full_name }}
               </a>
               <div class="container">
                 <p class="description">{{ props.dat.description }}</p>
