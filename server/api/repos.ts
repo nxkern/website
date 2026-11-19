@@ -1,27 +1,28 @@
-import { RepoApiCodeberg } from "~~/shared/types/repoApiCodeberg";
+import { LanguageCountGh, RepoApiGithub } from "~~/shared/types/repoApiGithub";
 
 const listFilter: string[] = [
-    "nixos-dotfiles",
+    "dotfiles",
     "website",
-    "heartbeat",
+    "nxkern"
 ];
 
 export default defineCachedEventHandler(
     async (event) => {
         setResponseHeader(event, 'Cache-Control', 'no-cache, no-store, must-revalidate');
         try {
-            const repos = await $fetch<RepoApiCodeberg[]>(
-                "https://codeberg.org/api/v1/users/Nxus/repos"
+            const repos = await $fetch<RepoApiGithub[]>(
+                "https://api.github.com/users/nxkern/repos"
             );
-            const reposFilter = repos.filter((repo: RepoApiCodeberg) => !listFilter.includes(repo.name));
+            const reposFilter = repos.filter((repo: RepoApiGithub) => !listFilter.includes(repo.name));
 
             const reposWithLangs = await Promise.all(
                 reposFilter.map(async (repo) => {
-                    let languagesData: LanguageCount | null = null;
+                    let languagesData: LanguageCountGh | null = null;
 
-                    if (repo.languages_url) {
+                    if (repo.html_url) {
                         try {
-                            languagesData = await $fetch<LanguageCount>(repo.languages_url);
+                            languagesData = await $fetch<LanguageCountGh>(repo.languages_url);
+                            console.log(`repo name: ${repo.full_name}: languageData ${languagesData}`)
                         } catch {
                             languagesData = null;
                         }
@@ -42,8 +43,8 @@ export default defineCachedEventHandler(
         }
     },
     {
-        maxAge: 60 * 60 * 24,
-        name: "codeberg-repos-cache",
+        maxAge: 60 * 60 * 6,
+        name: "github-repos-cache",
         swr: true,
     }
 );

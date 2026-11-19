@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DescriptionCard from './_components/DescriptionCard.vue';
-type RepoWithLangs = RepoApiCodeberg & { languagesData: LanguageCount | null };
 const currentIndex = ref<number>(0);
 let timer: ReturnType<typeof setInterval> | null = null;
 const { data: repos, refresh } = await useFetch<RepoWithLangs[]>("/api/repos");
