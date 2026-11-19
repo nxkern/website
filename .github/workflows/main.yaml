@@ -1,0 +1,53 @@
+name: Docker file build
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_BASE_NAME: ${{ secrets.REGISTRY_USER }}/website
+
+jobs:
+  website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check code
+        uses: actions/checkout@v6
+        with:
+          fetch-tags: true
+
+      - name: Log in to Docker hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.REGISTRY_USER }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
+      
+      - name: Verify Tag
+        id: get_tag
+        run: |
+          TAG=$(git describe --tags --exact-match 2>/dev/null || echo "")
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Build Docker image
+        run: |
+          TAG="${{ steps.get_tag.outputs.tag }}"
+          docker build --platform linux/adm64 -t $IMAGE_BASE_NAME:latest .
+
+          if [ -z "$TAG"  ]; then 
+              echo "not tag"
+          else
+              docker tag "$IMAGE_BASE_NAME":latest "$IMAGE_BASE_NAME":$TAG
+          fi
+
+      - name: Push to Docker hub
+        run: |
+          TAG="${{ steps.get_tag.outputs.tag }}"
+          docker push $IMAGE_BASE_NAME:latest
+
+          if [ -z "$TAG" ]; then 
+              echo "not tag -- [push]"
+          else
+              docker push "$IMAGE_BASE_NAME:$TAG"
+          fi
+
