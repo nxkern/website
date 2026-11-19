@@ -1,0 +1,33 @@
+name: Pull request review
+
+
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "11.22.0"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.19.0"
+          cache: "pnpm"
+      
+      - name: Install deps
+        run: pnpm i
+
+      - name: Build
+        run: pnpm build
+
+
+
