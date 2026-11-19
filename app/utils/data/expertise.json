@@ -72,12 +72,10 @@
             "type": "ops",
             "Name": "Azure",
             "status": "stable"
-        }
-    ],
-    "foc": [
+        },
         {
-            "type": "foc",
-            "Name": "Perfomance Optimization",
+            "type": "ops",
+            "Name": "Terraform",
             "status": "active"
         }
     ]
